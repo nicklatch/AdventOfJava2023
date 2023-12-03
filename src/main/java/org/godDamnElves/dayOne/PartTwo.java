@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Stream;
 
 //INCOMPLETE
@@ -21,9 +20,8 @@ public class PartTwo {
     public int updatedCalibrationSum(String filePath) throws IOException {
         try (BufferedReader buffReader = Files.newBufferedReader(Path.of(filePath)); Stream<String> lines = buffReader.lines()) {
             lines.forEach(line -> {
-                String swappedLine = swapNameWithNum(line);
-                var cleanedLine = swappedLine.replaceAll("\\D", "").split("");
-                intList.add(Integer.parseInt(cleanedLine[0] + cleanedLine[cleanedLine.length - 1]));
+                String[] swappedAndCleanedLine = swapNameWithNum(line).replaceAll("\\D", "").split("");
+                intList.add(Integer.parseInt(swappedAndCleanedLine[0] + swappedAndCleanedLine[swappedAndCleanedLine.length - 1]));
             });
         } catch (IOException eIO) {
             eIO.printStackTrace();
@@ -33,14 +31,15 @@ public class PartTwo {
     }
 
     public String swapNameWithNum(String input) {
-        Set<Map.Entry<String, Integer>> entrySet = intMap.entrySet();
-        String updatedInput = "";
-
-        for (final Map.Entry<String, Integer> entry : entrySet) {
-            if (input.contains(entry.getKey())) {
-                updatedInput = input.replaceAll(entry.getKey(), String.valueOf(entry.getValue()));
-            }
-        }
-        return updatedInput;
+        return input
+                .replaceAll("one", "one1one")
+                .replaceAll("two", "two2two")
+                .replaceAll("three", "three3three")
+                .replaceAll("four", "four4four")
+                .replaceAll("five", "five5five")
+                .replaceAll("six", "six6six")
+                .replaceAll("seven", "seven7seven")
+                .replaceAll("eight", "eight8eight")
+                .replaceAll("nine", "nine9nine");
     }
 }
