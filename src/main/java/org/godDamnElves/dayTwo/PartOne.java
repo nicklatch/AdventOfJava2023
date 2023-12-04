@@ -10,7 +10,7 @@ public class PartOne {
             "blue", 14
     );
 
-    // INCOMPLETE
+
 
 
 }
