@@ -1,16 +1,13 @@
 package org.godDamnElves;
 
-import org.godDamnElves.dayOne.PartOne;
-import org.godDamnElves.dayOne.PartTwo;
+import org.godDamnElves.dayTwo.PartOne;
 
 import java.io.IOException;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        PartTwo partTwo = new PartTwo();
-        partTwo.calibrationDocumentHandler("src/main/resources/d1p2test.txt");
 
-        System.out.println(partTwo.getSum());
-    }
+  public static void main(String[] args) throws IOException {
+    System.out.println((PartOne.parseGames("src/main/resources/dayTwoPartOneData.txt")));
+  }
 }
