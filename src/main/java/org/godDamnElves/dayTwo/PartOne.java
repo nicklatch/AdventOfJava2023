@@ -12,23 +12,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PartOne {
+
   public static void main(String[] args) throws IOException {
     System.out.println(fileHandler("src/main/resources/dayTwoPartOneData.txt"));
   }
 
-  private static int fileHandler(String filePath) throws IOException {
+  public static int fileHandler(String filePath) throws IOException {
     List<Integer> validSum = new ArrayList<>();
 
-    try (
-        BufferedReader reader = Files.newBufferedReader(
-        Path.of(filePath)); Stream<String> lines = reader.lines()
-    ) {
+    try (BufferedReader reader = Files.newBufferedReader(
+        Path.of(filePath)); Stream<String> lines = reader.lines()) {
 
       lines.forEach(line -> {
         var id = idExtractor(line.substring(0, line.indexOf(":")).trim());
-        if (validityChecker(gameParser(line))) {
+        if (!validityChecker(gameParser(line))) {
           validSum.add(Integer.parseInt(id));
-        };
+        }
       });
     } catch (IOException eIO) {
       eIO.printStackTrace();
@@ -39,28 +38,23 @@ public class PartOne {
 
   public static List<List<String>> gameParser(String game) {
 
-    String gameInfo = game
-        .substring(game.indexOf(": ") + 1)
-        .trim();
+    String gameInfo = game.substring(game.indexOf(": ") + 1).trim();
 
-    List<String> splitGames = Arrays
-        .stream(gameInfo.split(";\\s"))
+    List<String> splitGames = Arrays.stream(gameInfo.split(";\\s")).toList();
+
+    return splitGames.stream().map(g -> Arrays.stream(g.split(", ")).collect(Collectors.toList()))
         .toList();
 
-    return splitGames
-        .stream()
-        .map(g -> Arrays.stream(g.split(",")).collect(Collectors.toList()))
-        .toList();
   }
 
-  private static String idExtractor(String part) {
+  public static String idExtractor(String part) {
     return part.split("\\s")[1];
   }
 
-  private static boolean validityChecker(List<List<String>> games) {
+  public static boolean validityChecker(List<List<String>> games) {
     List<List<Boolean>> valid = new ArrayList<>();
 
-    for (List<String> game : games) {
+    games.forEach(game -> {
       List<Boolean> collect = game.stream().map(blocks -> {
         var blockSplit = blocks.trim().split(" ");
         return switch (blockSplit[1].trim()) {
@@ -71,12 +65,9 @@ public class PartOne {
         };
       }).collect(Collectors.toList());
       valid.add(collect);
-    }
+    });
 
-    return !valid.stream()
-        .flatMap(Collection::stream)
-        .toList()
-        .contains(false);
+    return valid.stream().flatMap(Collection::stream).toList().contains(false);
   }
 
 
