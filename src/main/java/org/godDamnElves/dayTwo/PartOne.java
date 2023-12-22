@@ -22,11 +22,9 @@ public class PartOne {
 
     try (BufferedReader reader = Files.newBufferedReader(
         Path.of(filePath)); Stream<String> lines = reader.lines()) {
-
       lines.forEach(line -> {
-        var id = idExtractor(line.substring(0, line.indexOf(":")).trim());
         if (validityChecker(gameParser(line))) {
-          validSum.add(Integer.parseInt(id));
+          validSum.add(Integer.parseInt(idExtractor(line.substring(0, line.indexOf(":")))));
         }
       });
     } catch (IOException eIO) {
@@ -58,7 +56,8 @@ public class PartOne {
           case "red" -> valid.add(Integer.parseInt(blockSplit[0]) <= 12);
           case "green" -> valid.add(Integer.parseInt(blockSplit[0]) <= 13);
           case "blue" -> valid.add(Integer.parseInt(blockSplit[0]) <= 14);
-        };
+        }
+        ;
       });
     });
     return !valid.contains(false);
