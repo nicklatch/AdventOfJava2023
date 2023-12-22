@@ -32,8 +32,8 @@ public class DayTwoPartOneTest {
 
   @Test
   void testValidityChecker_valid() {
-    List<List<String>> input = List.of(List.of("red 12", "green 11", "blue 10"),
-        List.of("red 12", "green 11", "blue 10"));
+    List<List<String>> input = List.of(List.of("12 red", "11 green", "10 blue"),
+        List.of("12 red", "11 green", "10 blue"));
 
     boolean expected = true;
 
@@ -44,8 +44,8 @@ public class DayTwoPartOneTest {
 
   @Test
   void testValidityChecker_invalid() {
-    List<List<String>> input = List.of(List.of("red 12", "green 11", "blue 10"),
-        List.of("red 15", "green 11", "blue 10"));
+    List<List<String>> input = List.of(List.of("12 red", "11 green", "10 blue"),
+        List.of("15 red", "11 green", "10 blue"));
 
     boolean expected = false;
 

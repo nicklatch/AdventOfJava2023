@@ -25,7 +25,7 @@ public class PartOne {
 
       lines.forEach(line -> {
         var id = idExtractor(line.substring(0, line.indexOf(":")).trim());
-        if (!validityChecker(gameParser(line))) {
+        if (validityChecker(gameParser(line))) {
           validSum.add(Integer.parseInt(id));
         }
       });
@@ -37,13 +37,10 @@ public class PartOne {
   }
 
   public static List<List<String>> gameParser(String game) {
+    List<String> splitGames = Arrays.stream(
+        game.substring(game.indexOf(": ") + 1).trim().split(";\\s")).toList();
 
-    String gameInfo = game.substring(game.indexOf(": ") + 1).trim();
-
-    List<String> splitGames = Arrays.stream(gameInfo.split(";\\s")).toList();
-
-    return splitGames.stream().map(g -> Arrays.stream(g.split(", ")).collect(Collectors.toList()))
-        .toList();
+    return splitGames.stream().map(g -> Arrays.stream(g.split(", ")).toList()).toList();
 
   }
 
@@ -52,23 +49,19 @@ public class PartOne {
   }
 
   public static boolean validityChecker(List<List<String>> games) {
-    List<List<Boolean>> valid = new ArrayList<>();
+    List<Boolean> valid = new ArrayList<>();
 
     games.forEach(game -> {
-      List<Boolean> collect = game.stream().map(blocks -> {
-        var blockSplit = blocks.trim().split(" ");
-        return switch (blockSplit[1].trim()) {
-          case "red" -> Integer.parseInt(blockSplit[0].trim()) <= 12;
-          case "green" -> Integer.parseInt(blockSplit[0].trim()) <= 13;
-          case "blue" -> Integer.parseInt(blockSplit[0].trim()) <= 14;
-          default -> false;
+      game.forEach(blocks -> {
+        var blockSplit = blocks.split(" ");
+        switch (blockSplit[1]) {
+          case "red" -> valid.add(Integer.parseInt(blockSplit[0]) <= 12);
+          case "green" -> valid.add(Integer.parseInt(blockSplit[0]) <= 13);
+          case "blue" -> valid.add(Integer.parseInt(blockSplit[0]) <= 14);
         };
-      }).collect(Collectors.toList());
-      valid.add(collect);
+      });
     });
-
-    return valid.stream().flatMap(Collection::stream).toList().contains(false);
+    return !valid.contains(false);
   }
-
 
 }
