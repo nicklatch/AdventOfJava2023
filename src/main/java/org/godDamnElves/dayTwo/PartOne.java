@@ -49,13 +49,11 @@ public class PartOne {
 
     games.forEach(game -> {
       game.forEach(blocks -> {
-        var blockSplit = blocks.split(" ");
-        switch (blockSplit[1]) {
+        switch (blocks.split("")[1]) {
           case "red" -> valid.add(Integer.parseInt(blockSplit[0]) <= 12);
           case "green" -> valid.add(Integer.parseInt(blockSplit[0]) <= 13);
           case "blue" -> valid.add(Integer.parseInt(blockSplit[0]) <= 14);
         }
-        ;
       });
     });
     return !valid.contains(false);
