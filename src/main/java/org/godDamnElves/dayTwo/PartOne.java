@@ -25,7 +25,6 @@ public class PartOne {
                 }
             });
         } catch (IOException eIO) {
-            eIO.printStackTrace();
             throw new IOException("File not found or something else, man", eIO);
         }
         return validSum.stream().reduce(0, Integer::sum);
@@ -52,16 +51,14 @@ public class PartOne {
     public static boolean validityChecker(List<List<String>> games) {
         List<Boolean> valid = new ArrayList<>();
 
-        games.forEach(game -> {
-            game.forEach(blocks -> {
-                String[] blockSplit = blocks.split(" ");
-                switch (blockSplit[1]) {
-                    case "red" -> valid.add(Integer.parseInt(blockSplit[0]) <= 12);
-                    case "green" -> valid.add(Integer.parseInt(blockSplit[0]) <= 13);
-                    case "blue" -> valid.add(Integer.parseInt(blockSplit[0]) <= 14);
-                }
-            });
-        });
+        games.forEach(game -> game.forEach(blocks -> {
+            String[] blockSplit = blocks.split(" ");
+            switch (blockSplit[1]) {
+                case "red" -> valid.add(Integer.parseInt(blockSplit[0]) <= 12);
+                case "green" -> valid.add(Integer.parseInt(blockSplit[0]) <= 13);
+                case "blue" -> valid.add(Integer.parseInt(blockSplit[0]) <= 14);
+            }
+        }));
         return !valid.contains(false);
     }
 
